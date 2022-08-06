@@ -1,0 +1,21 @@
+{% extends 'learning_logs/base.html' %}
+{% load bootstrap4 %}
+
+{% block page_header %}
+    <h2><a href="{% url 'learning_logs:topic' topic.id %}">{{topic}}</a></h2>
+    <p>Add a new entry</p>
+{% endblock page_header %}
+
+{% block content %}
+    <form action="{% url 'learning_logs:new_entry' topic.id %}" method="post">
+    <!-- 防止攻击 -->
+    {% csrf_token %}
+    <!-- 以段落格式p渲染所有表单元素 -->
+    {% bootstrap_form form %}
+    <!-- 定义提交按钮 -->
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Add entry</button>
+    {% endbuttons %}
+</form>
+
+{% endblock content %}
