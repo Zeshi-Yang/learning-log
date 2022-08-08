@@ -1,5 +1,5 @@
 {% extends 'learning_logs/base.html' %}
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {% block page_header %}
     <h2><a href="{% url 'learning_logs:new_topic' %}">New topic</a></h2>
@@ -14,9 +14,7 @@
     <!-- 以段落格式p渲染所有表单元素 -->
     {% bootstrap_form form %}
     <!-- 定义提交按钮 -->
-    {% buttons %}
-    <button name="submit" class="btn btn-primary">Add topic</button>
-    {% endbuttons %}
+    {% bootstrap_button "Add topic" botton_type="submit" button_class="btn-primary" %}
 </form>
 
 {% endblock content %}

@@ -15,12 +15,12 @@
         {% for entry in entries %}
             <!-- 项目列表标签 -->
             <div class="card mb-3">
-                <h4 class="card-header">
+                <h5 class="card-header">
                     {{entry.data_added|date:'M d, Y H:i'}}
                     <small>
                         <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
                     </small>
-                </h4>
+                </h5>
                 <div class="card-body">
                     {{entry.text|linebreaks}}
                 </div>

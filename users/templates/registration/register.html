@@ -1,5 +1,5 @@
 {% extends 'learning_logs/base.html' %}
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {% block page_header %}
     <h2>Sign up</h2>
@@ -12,9 +12,7 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <!-- 提交按钮 -->
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Sign up</button>
-        {% endbuttons %}
+        {% bootstrap_button "Sign up" botton_type="submit" button_class="btn-primary" %}
         <!-- 隐藏的表单元素 -->
         <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
 

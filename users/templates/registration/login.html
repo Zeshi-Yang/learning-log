@@ -1,22 +1,20 @@
 {% extends 'learning_logs/base.html' %}
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {% block page_header %}
-    <h2>Log in to your account.</h2>
+<h2>Log in to your account.</h2>
 {% endblock page_header %}
 
 {% block content %}
 
-    <form method="post" action="{% url 'users:login' %}" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <!-- {{ form.as_p }} -->
-        <!-- 提交按钮 -->
-        {% buttons %}
-        <button name="submit" class="btn btn-primary">Log in</button>
-        {% endbuttons %}
-        <!-- 隐藏的表单元素 -->
-        <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
+<form method="post" action="{% url 'users:login' %}" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <!-- {{ form.as_p }} -->
+    <!-- 提交按钮 -->
+    {% bootstrap_button "Log in" botton_type="submit" button_class="btn-primary" %}           
+    <!-- 隐藏的表单元素 -->
+    <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
 
     </form>
 
