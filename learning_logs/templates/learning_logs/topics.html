@@ -3,25 +3,42 @@
 
 {% block page_header %}
     <h2>Topics</h2>
-{% endblock page_header %}
-
-{% block content %}    
+    {% endblock page_header %}
+    
+    {% block content %}    
+    {% if user.is_authenticated %} 
+    <h3>My Topics</h3>
     <!-- 无序列表 -->
     <ul>
         <!-- For 循环，以 endfor 为结束标志 -->
         {% for topic in topics %}
-            <!-- 项目列表标签 -->
-            <li><h4>
-                <!-- 打印变量需要用双花括号括起 -->
-                <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-            </h4></li>
+        <!-- 项目列表标签 -->
+        <li><h4>
+            <!-- 打印变量需要用双花括号括起 -->
+            <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+        </h4></li>
         <!-- 模板标签 -->
         {% empty %}
-            <li><h4>
-                There are no entries for this topic yet.
-            </h4></li>
+        <li><h4>
+            There are no topics yet.
+        </h4></li>
         {% endfor %}
     </ul>
-<h4><a href="{% url 'learning_logs:new_topic' %}">Add new topic</a></h4>
-
-{% endblock content %}
+    <h4><a href="{% url 'learning_logs:new_topic' %}">Add new topic</a></h4>  
+    {% endif %}
+    <h3>Public Topics</h3>
+    <ul>
+        {% for topic in public_topics %}
+        <!-- 项目列表标签 -->
+        <li><h4>
+            <!-- 打印变量需要用双花括号括起 -->
+            <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+        </h4></li>
+        <!-- 模板标签 -->
+        {% empty %}
+        <li><h4>
+            There are no topics yet.
+        </h4></li>
+        {% endfor %}
+    </ul>    
+    {% endblock content %}

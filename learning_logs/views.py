@@ -1,6 +1,7 @@
+from cgi import print_arguments
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Topic,Entry
-from .forms import TopicForm,EntryForm
+from .forms import PublicForm, TopicForm,EntryForm
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 # Create your views here.
@@ -9,19 +10,29 @@ def index(request):
     '''The main page of learning log'''
     return render(request,'learning_logs/index.html')
 
-@login_required
+# @login_required
 # 包含request和topic_id的视图函数
 def topics(request):
-    '''show all the topics'''
-    topics=Topic.objects.filter(owner=request.user).order_by('data_added')
-    context={'topics':topics}
-    return render(request,'learning_logs/topics.html',context)
+    '''show all the topics'''      
+    if request.user.is_anonymous==False:
+        topics=Topic.objects.filter(owner=request.user).order_by('data_added')
+        public_topics=Topic.objects.filter(public=True).order_by('data_added')
+        context={'topics':topics,'public_topics':public_topics}
+        return render(request,'learning_logs/topics.html',context)
+    else:
+        topics=[]
+        public_topics=Topic.objects.filter(public=True).order_by('data_added')
+        context={'topics':topics,'public_topics':public_topics}
+        return render(request,'learning_logs/topics.html',context)
+        
+
 
 @login_required
 def topic(request,topic_id):
     '''Show one topic with all entries'''
-    topic=get_object_or_404(Topic,id=topic_id)
-    check_topic_owner(topic,request)
+    topic=get_object_or_404(Topic,id=topic_id)    
+    if topic.public==False:
+        check_topic_owner(topic,request)
     # mins symbol means descending
     entries=topic.entry_set.order_by('-data_added')
     context={'topic':topic,'entries':entries}
@@ -36,12 +47,12 @@ def new_topic(request):
         form=TopicForm()
     else:
         # Post the data and deal them
-        form=TopicForm(request.POST)
+        form=TopicForm(request.POST)                        
     # 显示空表单或指出表单数据无效
-        if form.is_valid():
+        if form.is_valid():            
             new_topic=form.save(commit=False)
-            new_topic.owner=request.user
-            new_topic.save()
+            new_topic.owner=request.user            
+            new_topic.save()            
             return redirect('learning_logs:topics')
     context={'form':form}
     return render(request,'learning_logs/new_topic.html',context)

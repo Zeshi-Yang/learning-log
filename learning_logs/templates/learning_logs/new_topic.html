@@ -7,14 +7,20 @@
 
 {% block content %}
 <!-- 定义HTML表单 -->
-    <p>Add a new topic</p>
-    <form action="{% url 'learning_logs:new_topic' %}" method="post">
-    <!-- 防止攻击 -->
+<p>Add a new topic</p>
+<!-- <form action="" method="post" class="form-check form-switch">
     {% csrf_token %}
+    <input class="form-check-input" type="checkbox" value="true" name="public">Public
+</form> -->
+
+<form action="{% url 'learning_logs:new_topic' %}" method="post">
+    <!-- 防止攻击 -->
+    {% csrf_token %}    
     <!-- 以段落格式p渲染所有表单元素 -->
     {% bootstrap_form form %}
     <!-- 定义提交按钮 -->
-    {% bootstrap_button "Add topic" botton_type="submit" button_class="btn-primary" %}
+    {% bootstrap_button "Add topic" botton_type="submit" button_class="btn-primary" %}    
 </form>
+
 
 {% endblock content %}

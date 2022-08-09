@@ -1,14 +1,12 @@
-from cProfile import label
-from dataclasses import field
-from xml.dom.minidom import Attr
 from django import forms
 from .models import Topic,Entry
 
 class TopicForm(forms.ModelForm):
-    class Meta:
+    class Meta:        
         model=Topic
-        fields=['text']
-        labels={'text':''}
+        fields=['text','public']
+        labels={'text':'','public':''}
+    public=forms.BooleanField(required=False)
 
 class EntryForm(forms.ModelForm):
     class Meta:
@@ -16,3 +14,9 @@ class EntryForm(forms.ModelForm):
         fields=['text']
         labels={'text':''}
         widgets={'text':forms.Textarea(attrs={'cols':80})}
+
+class PublicForm(forms.ModelForm):
+    class Meta:
+        public=forms.BooleanField()
+        model=Topic
+        exclude=()
